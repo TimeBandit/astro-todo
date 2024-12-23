@@ -1,5 +1,7 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import Content from '../components/Content.astro';
+import Hero from '../components/Hero.astro';
+import WhatsNew from '../components/WhatsNew.astro';
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -7,5 +9,9 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<Welcome />
+	<!-- <Welcome /> -->
+  <Content>
+    <Hero slot="default"/>
+    <WhatsNew slot="after-main"/>
+  </Content>
 </Layout>
