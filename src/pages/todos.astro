@@ -1,11 +1,18 @@
 ---
 import Content from "../components/Content.astro";
+import { TodosList } from "../components/TodosList.tsx";
 import Layout from "../layouts/Layout.astro";
-
-
 ---
+
 <Layout>
   <Content>
-    test
+    <div id="todo">
+      <TodosList client:load />
+    </div>
   </Content>
 </Layout>
+<style>
+  #todo {
+    display: block;
+  }
+</style>
