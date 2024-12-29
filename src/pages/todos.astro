@@ -1,7 +1,5 @@
 ---
-import { Button } from "@/components/ui/button";
-import { Card, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { TodosList } from "@/components/TodosList";
 import Content from "../components/Content.astro";
 
 import "../styles/global.css";
@@ -10,21 +8,14 @@ import "../styles/global.css";
 <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
   <div class="w-full max-w-sm">
     <Content>
-      <Card>
-        <CardFooter className="flex justify-between">
-          <div class="flex w-full max-w-sm items-center space-x-2">
-            <Input type="email" placeholder="Task" />
-            <Button type="submit">Add</Button>
-          </div>
-        </CardFooter>
-      </Card>
+      <TodosList client:load />
     </Content>
   </div>
 </div>
 <!-- <Layout>
   <Content>
     <div id="todo">
-      <TodosList client:load />
+      
     </div>
     <Card>
       <CardFooter className="flex justify-between">
