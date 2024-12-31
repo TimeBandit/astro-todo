@@ -1,4 +1,5 @@
 ---
+import { Button } from "@/components/ui/button";
 import Content from "../components/Content.astro";
 import Hero from "../components/Hero.astro";
 import WhatsNew from "../components/WhatsNew.astro";
@@ -13,6 +14,8 @@ import Layout from "../layouts/Layout.astro";
 <Layout>
   <!-- <Welcome /> -->
   <Content>
+    <Button id="login">Login</Button>
+    <Button id="logout">Logout</Button>
     <Hero slot="default" />
     <WhatsNew slot="after-main" />
   </Content>
