@@ -29,6 +29,16 @@ import { Button } from "./ui/button";
     </a>
   </section>
 </section>
+<script>
+  const { signIn, signOut } = await import("auth-astro/client");
+  const loginButton = document.querySelector("#login");
+  const logoutButton = document.querySelector("#logout");
+
+  if (loginButton && logoutButton) {
+    loginButton.addEventListener("click", () => signIn("github"));
+    logoutButton.addEventListener("click", () => signOut());
+  }
+</script>
 <style>
   #hero {
     display: flex;
