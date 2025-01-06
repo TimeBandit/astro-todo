@@ -12,21 +12,13 @@ import "../styles/global.css";
     </Content>
   </div>
 </div>
-<!-- <Layout>
-  <Content>
-    <div id="todo">
-      
-    </div>
-    <Card>
-      <CardFooter className="flex justify-between">
-        <div class="flex w-full max-w-sm items-center space-x-2">
-          <Input type="email" placeholder="Email" />
-          <Button type="submit">Subscribe</Button>
-        </div>
-      </CardFooter>
-    </Card>
-  </Content>
-</Layout> -->
+<script>
+  import { userManager } from "../scripts/auth";
+  (async () => {
+    const user = userManager.signinCallback();
+    console.log(user)
+  })();
+</script>
 <style>
   #todo {
     display: block;

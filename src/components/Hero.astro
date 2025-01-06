@@ -11,9 +11,9 @@ import { Button } from "./ui/button";
     To get started, open the <code><pre>src/pages</pre></code> directory in your
     project.
   </h1>
-  <section id="login" class="py-2">
-    <Button id="login">Login</Button>
-    <Button id="logout">Logout</Button>
+  <section id="auth" class="py-2">
+    <Button id="signIn">Login</Button>
+    <Button id="signOut">Logout</Button>
   </section>
   <section id="links">
     <a class="button" href="https://docs.astro.build">Read our docs</a>
@@ -30,13 +30,13 @@ import { Button } from "./ui/button";
   </section>
 </section>
 <script>
-  const { signIn, signOut } = await import("auth-astro/client");
-  const loginButton = document.querySelector("#login");
+  import { userManager } from "../scripts/auth";
+  const signButton = document.querySelector("#signIn");
   const logoutButton = document.querySelector("#logout");
 
-  if (loginButton && logoutButton) {
-    loginButton.addEventListener("click", () => signIn("github"));
-    logoutButton.addEventListener("click", () => signOut());
+  if (signButton && logoutButton) {
+    signButton.addEventListener("click", async () => await userManager.signinRedirect());
+    //logoutButton.addEventListener("click", () => signOut());
   }
 </script>
 <style>
