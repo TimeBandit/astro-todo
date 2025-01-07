@@ -49,4 +49,4 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 
 # Authentication
 
-We use (AuthJs)[https://authjs.dev/]
+We use Amazon Cognito
