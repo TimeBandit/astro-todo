@@ -24,17 +24,17 @@ const getProtocol = () => {
 
 const host = getHost();
 
-console.table({ host });
-
 const basePath = `${getProtocol()}://${host}`;
-console.log(basePath);
+
+const client_id = getEnv("PUBLIC_CLIENT_ID")
+
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_m7FgHaaxa",
-  client_id: "6481si40mb09htsbsb83liv2io",
+  client_id,
   redirect_uri: `${basePath}/todos`,
   response_type: "code",
-  scope: "phone openid email",
+  scope: "email openid phone profile",
 };
 
 // create a UserManager instance
@@ -43,11 +43,10 @@ export const userManager = new UserManager({
 });
 
 export async function signOutRedirect() {
-  const clientId = "6481si40mb09htsbsb83liv2io";
   const logoutUri = `${basePath}`;
   const cognitoDomain =
     "https://eu-west-2m7fghaaxa.auth.eu-west-2.amazoncognito.com";
-  window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
+  window.location.href = `${cognitoDomain}/logout?client_id=${client_id}&logout_uri=${encodeURIComponent(
     logoutUri
   )}`;
 }

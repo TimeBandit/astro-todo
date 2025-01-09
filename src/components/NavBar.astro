@@ -11,32 +11,14 @@ import "../styles/global.css";
   </div>
 </nav>
 <script>
-  import { signOutRedirect, userManager } from "../scripts/auth";
-  const signButton = document.querySelector("#signIn");
-  const signOutButton = document.querySelector("#signOut");
+  import { signOutRedirect, userManager } from "@/scripts/auth";
+  
+  document.getElementById("signIn")!.addEventListener("click", async () => {
+    await userManager.signinRedirect();
+  });
 
-  if (signButton) {
-    signButton.addEventListener("click", async () => {
-      console.info("signing in");
-      const user = await userManager.signinCallback();
-      if (user) {
-        console.info(`User ${user.profile.name} logged in`);
-        await userManager.signinRedirect();
-      } else {
-        console.error(`No user found`);
-      }
-    });
-  }
-
-  if (signOutButton) {
-    console.info(`signing out, goodbye!`)
-    signOutButton.addEventListener("click", async() => {
-      try {
-        await signOutRedirect()
-      } catch (error) {
-        console.error(error)
-      }
-    });
-  } else {
-  }
+  document.getElementById("signOut")!.addEventListener("click", async () => {
+    await signOutRedirect();
+  });
+  
 </script>
