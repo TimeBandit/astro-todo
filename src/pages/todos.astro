@@ -18,9 +18,11 @@ import Layout from "@/layouts/Layout.astro";
 <script>
   import type { User } from "oidc-client-ts";
 import { userManager } from "../scripts/auth";
+
   (async () => {
     try {
       const user: User | undefined = await userManager.signinCallback();
+      console.log(user)
     } catch (error) {
       console.error(error);
     }
