@@ -75,10 +75,19 @@ Online storage and retrieval of Todos tied to a specific User. The User must be 
 
 ### Domain Objects
 
-- Entities
-  - Todo, User
-- Value Objects
+- Entities (mutable objects with identifiers)
+  - Todo
+    - content
+    - createdAt
+    - completed
+  - User
+- Value Objects (values as properties, have methods)
+  - Todo
+    - email
 - Aggregates
+  - List
+    - Todos[]
+    - User
 
 
 
