@@ -81,7 +81,7 @@ Online storage and retrieval of Todos tied to a specific User. The User must be 
     - createdAt
     - completed
   - User
-- Value Objects (values as properties, have methods)
+- Value Objects (immutable values as properties, have methods)
   - Todo
     - email
 - Aggregates
