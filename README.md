@@ -88,6 +88,12 @@ Online storage and retrieval of Todos tied to a specific User. The User must be 
   - List
     - Todos[]
     - User
+  
+## Todos
+[] auth protect todos route
+[] create new table in ddb to hold lists
+[] create document client to access data
+[] create CRUD helpers to write to tables
 
 
 
