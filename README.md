@@ -47,6 +47,40 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
-# Authentication
+## Authentication
 
-We use Amazon Cognito
+Amazon Cognito is used to authenticate the `User`
+
+## DDD
+Read this [primer](https://medium.com/spotlight-on-javascript/domain-driven-design-for-javascript-developers-9fc3f681931a) on Domain Driven Development
+
+```mermaid
+flowchart LR
+    subgraph Infrastructure
+      subgraph Applicaiton
+        subgraph Domain
+        end
+      end
+    end
+```
+
+The inner layers can use anything declared in the outer layer. 
+Source code dependencies only point inwards.
+
+> The inner layer is your business logic, the application layer orchestrates this business logic in response to clients requests and the infrastructure layer contains concrete implementations of the code dealing with the database, web-services, etc.
+> 
+### Domain
+
+Online storage and retrieval of Todos tied to a specific User. The User must be logged to see their Todos
+
+### Domain Objects
+
+- Entities
+  - Todo, User
+- Value Objects
+- Aggregates
+
+
+
+
+
