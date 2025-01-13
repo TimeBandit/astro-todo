@@ -13,4 +13,11 @@ export default defineConfig({
     applyBaseStyles: false,
   }), react()],
   adapter: netlify(),
+  vite: {
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
+  },
 });

@@ -91,6 +91,10 @@ Online storage and retrieval of Todos tied to a specific User. The User must be 
   
 ## Todos
 [] auth protect todos route
+[] authenticate the logged in user along the API route
+  [] create a policy
+  [] create a role and attach the policy
+  [] specifiy the awarded role in cognito
 [] create new table in ddb to hold lists
 [] create document client to access data
 [] create CRUD helpers to write to tables

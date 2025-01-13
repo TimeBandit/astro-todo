@@ -4,9 +4,14 @@ import Content from "../components/Content.astro";
 
 import "../styles/global.css";
 import Layout from "@/layouts/Layout.astro";
+import NavBar from "@/components/NavBar.astro";
+import { Button } from "@/components/ui/button";
 ---
 
 <Layout>
+  <NavBar>
+    <Button id="signOut" className="">Logout</Button>
+  </NavBar>
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="w-full max-w-sm">
       <Content>
@@ -16,13 +21,17 @@ import Layout from "@/layouts/Layout.astro";
   </div>
 </Layout>
 <script>
-  import type { User } from "oidc-client-ts";
-import { userManager } from "../scripts/auth";
+  import { signOutRedirect, userManager } from "@/lib/auth.ts";
+import type { User } from "oidc-client-ts";
+
+  document.getElementById("signOut")!.addEventListener("click", async () => {
+    await signOutRedirect();
+  });
 
   (async () => {
     try {
       const user: User | undefined = await userManager.signinCallback();
-      console.log(user)
+      console.log(user);
     } catch (error) {
       console.error(error);
     }

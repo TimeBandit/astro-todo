@@ -1,24 +1,10 @@
 ---
-import { Button } from "./ui/button";
 
 import "../styles/global.css";
 ---
 
 <nav class="flex justify-end p-2">
   <div class="right justify-between">
-    <Button id="signIn" className="">Login</Button>
-    <Button id="signOut" className="">Logout</Button>
+    <slot/>
   </div>
 </nav>
-<script>
-  import { signOutRedirect, userManager } from "@/scripts/auth";
-  
-  document.getElementById("signIn")!.addEventListener("click", async () => {
-    await userManager.signinRedirect();
-  });
-
-  document.getElementById("signOut")!.addEventListener("click", async () => {
-    await signOutRedirect();
-  });
-  
-</script>
