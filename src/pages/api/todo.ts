@@ -3,6 +3,7 @@ import type { APIRoute } from "astro";
 export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
+  // TODO: authenticate the jwt
   const data = await request.formData();
   const name = data.get("todo");
 

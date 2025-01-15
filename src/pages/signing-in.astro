@@ -1,0 +1,11 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout />
+<script>
+  import { userManager } from "@/lib/auth";
+
+  await userManager.signinCallback();
+  window.location.href = "/todos";
+</script>

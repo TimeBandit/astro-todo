@@ -4,22 +4,16 @@ import Content from "../components/Content.astro";
 import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
 
-import NavBar from "@/components/NavBar.astro";
 import "../styles/global.css";
 ---
 
 <Layout>
-  <NavBar>
-    <Button id="signIn" className="">Login</Button>
-  </NavBar>
   <Content>
-    <Hero slot="default" />
+    <div slot="default">
+      <Hero />
+      <Button>
+        <a href="/todos">Go to my Todos</a>
+      </Button>
+    </div>
   </Content>
 </Layout>
-<script>
-  import { userManager } from "@/lib/auth.ts";
-
-  document.getElementById("signIn")!.addEventListener("click", async () => {
-    await userManager.signinRedirect();
-  });
-</script>

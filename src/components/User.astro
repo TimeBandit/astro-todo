@@ -1,0 +1,54 @@
+---
+import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import user from "@/assets/user.svg";
+---
+
+<!-- Using Astro syntax to manipulate the dom and hold state is cumbersome.
+Use Astro for the pages and layouts. Use React for the components  -->
+<div>
+  <Avatar client:load>
+    <AvatarImage src="https://github.com/shadcn.png" client:load />
+    <AvatarFallback client:load>CN</AvatarFallback>
+  </Avatar>
+  <!-- <Avatar>
+    <AvatarImage id="avatarImage" src={user.src} alt="" />
+    <AvatarFallback id="avatarFallback">Name</AvatarFallback>
+  </Avatar> -->
+  <Button id="signIn" className="">Login</Button>
+  <Button id="signOut" className="">Logout</Button>
+</div>
+<script>
+  import { signOutRedirect, userManager } from "@/lib/auth.ts";
+  import { user as userStore } from "@/store/user";
+  import type { User } from "oidc-client-ts";
+
+  userStore.subscribe((value, onldVal) => {
+    if (value && !!value.expired) {
+      const name = value.profile?.name || "";
+      const fallback = document.getElementById("avatarFallback");
+      if (fallback) fallback.textContent = name;
+
+      // document.getElementById("avatarImage")?.setAttribute("alt", name);
+      // document.getElementById("avatarImage")!.style.visibility = "visibile";
+    } else {
+      // document.getElementById("avatarImage")!.style.visibility = "hidden";
+    }
+  });
+
+  document.getElementById("signOut")?.addEventListener("click", async () => {
+    await signOutRedirect();
+  });
+
+  document.getElementById("signIn")?.addEventListener("click", async () => {
+    try {
+      await userManager.signinRedirect();
+      const user: User | undefined = await userManager.signinCallback();
+
+      console.log(user);
+      if (user && !!user?.expired) userStore.set(user);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+</script>

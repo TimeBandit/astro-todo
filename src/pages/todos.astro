@@ -1,41 +1,55 @@
 ---
-import { TodosList } from "@/components/TodosList";
 import Content from "../components/Content.astro";
 
 import "../styles/global.css";
 import Layout from "@/layouts/Layout.astro";
 import NavBar from "@/components/NavBar.astro";
 import { Button } from "@/components/ui/button";
+import { AvatarComponent } from "@/components/Avatar";
+import avatar from "../assets/avatar.svg";
 ---
 
 <Layout>
   <NavBar>
+    <AvatarComponent src={avatar.src} alt="user" fallbackText="🙂" />
+    <div id="name"></div>
     <Button id="signOut" className="">Logout</Button>
   </NavBar>
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="w-full max-w-sm">
       <Content>
-        <TodosList client:load />
+        <div id="message"></div>
       </Content>
     </div>
   </div>
 </Layout>
 <script>
-  import { signOutRedirect, userManager } from "@/lib/auth.ts";
-import type { User } from "oidc-client-ts";
-
-  document.getElementById("signOut")!.addEventListener("click", async () => {
-    await signOutRedirect();
-  });
+  import { signOutRedirect, userManager } from "@/lib/auth";
+  import { sleep } from "@/lib/helper";
 
   (async () => {
-    try {
-      const user: User | undefined = await userManager.signinCallback();
-      console.log(user);
-    } catch (error) {
-      console.error(error);
+    await sleep(1);
+    let user = await userManager.getUser();
+
+    if (!user || (user && !!user.expired)) {
+      document.getElementById("nav-bar").style.visibility = "hidden";
+      for (let count = 5; count > 0; count--) {
+        await sleep(1);
+        document.getElementById("message").textContent =
+          `You need to sign-in to see your Todos. Redirecting you to login, in ${count} seconds`;
+      }
+      await userManager.signinRedirect();
+    } else {
+      user = await userManager.getUser();
+      document.getElementById("name").textContent =
+        `Welcom back ${user.profile.name}`;
     }
   })();
+
+  document.getElementById("signOut")!.addEventListener("click", async () => {
+    await userManager.removeUser();
+    await signOutRedirect();
+  });
 </script>
 <style>
   #todo {

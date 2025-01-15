@@ -26,13 +26,12 @@ const host = getHost();
 
 const basePath = `${getProtocol()}://${host}`;
 
-const client_id = getEnv("PUBLIC_CLIENT_ID")
-
+const client_id = getEnv("PUBLIC_CLIENT_ID");
 
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_m7FgHaaxa",
   client_id,
-  redirect_uri: `${basePath}/todos`,
+  redirect_uri: `${basePath}/signing-in`,
   response_type: "code",
   scope: "email openid phone profile",
 };
