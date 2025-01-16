@@ -1,6 +1,5 @@
 ---
 import Content from "../components/Content.astro";
-
 import "../styles/global.css";
 import Layout from "@/layouts/Layout.astro";
 import NavBar from "@/components/NavBar.astro";
@@ -11,7 +10,7 @@ import avatar from "../assets/avatar.svg";
 
 <Layout>
   <NavBar>
-    <AvatarComponent src={avatar.src} alt="user" fallbackText="🙂" />
+    <AvatarComponent src={avatar.src} alt="user" fallbackText="" client:load />
     <div id="name"></div>
     <Button id="signOut" className="">Logout</Button>
   </NavBar>
@@ -28,7 +27,6 @@ import avatar from "../assets/avatar.svg";
   import { sleep } from "@/lib/helper";
 
   (async () => {
-    await sleep(1);
     let user = await userManager.getUser();
 
     if (!user || (user && !!user.expired)) {
