@@ -11,9 +11,32 @@ import "../styles/global.css";
   <Content>
     <div slot="default">
       <Hero />
-      <Button>
-        <a href="/todos">Go to my Todos</a>
+      <Button id="login-button">
+        <a href="/todos">Login</a>
       </Button>
     </div>
   </Content>
 </Layout>
+<script>
+  import { userManager } from "@/lib/auth";
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const user = await userManager.getUser();
+
+    const loggedIn = user && !Boolean(user.expired);
+    const loginButton = document.getElementById("login-button");
+
+    loggedIn
+      ? (loginButton!.textContent = "My Todos")
+      : (loginButton!.textContent = "Login");
+
+    loginButton?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (loggedIn) {
+        window.location.href = "/todos";
+      } else {
+        userManager.signinRedirect();
+      }
+    });
+  });
+</script>
