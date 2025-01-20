@@ -3,16 +3,18 @@ import { Button } from "@/components/ui/button";
 import Content from "../components/Content.astro";
 import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
+import NavBar from "@/components/NavBar.astro";
 
 import "../styles/global.css";
 ---
 
 <Layout>
+  <NavBar />
   <Content>
     <div slot="default">
       <Hero />
       <Button id="login-button">
-        <a href="/todos">Login</a>
+        <a href="/todos">My Todos</a>
       </Button>
     </div>
   </Content>
@@ -22,20 +24,19 @@ import "../styles/global.css";
 
   document.addEventListener("DOMContentLoaded", async () => {
     const user = await userManager.getUser();
+    console.log(user);
 
     const loggedIn = user && !Boolean(user.expired);
     const loginButton = document.getElementById("login-button");
 
-    loggedIn
-      ? (loginButton!.textContent = "My Todos")
-      : (loginButton!.textContent = "Login");
-
     loginButton?.addEventListener("click", (e) => {
       e.preventDefault();
       if (loggedIn) {
+        console.log("one");
         window.location.href = "/todos";
       } else {
-        userManager.signinRedirect();
+        console.log("two");
+        window.location.href = "/login";
       }
     });
   });

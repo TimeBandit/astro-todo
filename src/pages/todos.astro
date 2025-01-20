@@ -12,9 +12,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 <Layout>
   <NavBar>
-    <AvatarComponent src={avatar.src} alt="user" fallbackText="" client:load />
+    <AvatarComponent src={avatar.src} alt="user" fallbackText="" />
     <div id="name"></div>
-    <Button id="signOut" className="">Logout</Button>
+    <Button id="signOut" className="visibility:hidden">Logoutoooooo</Button>
   </NavBar>
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="w-full max-w-sm">
@@ -29,30 +29,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 </Layout>
 <script>
   import { signOutRedirect, userManager } from "@/lib/auth";
-  import { sleep } from "@/lib/helper";
-
-  (async () => {
-    let user = await userManager.getUser();
-
-    if (!user || (user && !!user.expired)) {
-      document.getElementById("nav-bar").style.visibility = "hidden";
-      for (let count = 5; count > 0; count--) {
-        await sleep(1);
-        document.getElementById("message").textContent =
-          `You need to sign-in to see your Todos. Redirecting you to login, in ${count} seconds`;
-      }
-      await userManager.signinRedirect();
-    } else {
-      user = await userManager.getUser();
-      document.getElementById("name").textContent =
-        `Welcom back ${user?.profile.name}`;
-    }
-  })();
 
   document.getElementById("signOut")!.addEventListener("click", async () => {
     await userManager.removeUser();
     await signOutRedirect();
   });
+
+  let user = await userManager.getUser();
+
+  if (!user || (user && !!user.expired)) {
+    window.location.href = "/login";
+  } else {
+    user = await userManager.getUser();
+
+    const name = user?.profile.name || "User";
+    document.getElementById("signOut").style.visibility = "visible";
+    document.getElementById("name").textContent =
+      `Welcome back ${name[0].toUpperCase() + name.slice(1)}`;
+  }
 </script>
 <style>
   #todo {

@@ -1,0 +1,32 @@
+---
+import Content from "@/components/Content.astro";
+import Layout from "@/layouts/Layout.astro";
+
+import avatar from "../assets/avatar.svg";
+import NavBar from "@/components/NavBar.astro";
+import { AvatarComponent } from "@/components/Avatar";
+---
+
+<Layout>
+  <NavBar>
+    <AvatarComponent src={avatar.src} alt="user" fallbackText="" />
+  </NavBar>
+  <Content>
+    <div id="message">
+      Please login. Redirecting to the login page...in 5 seconds
+    </div>
+  </Content>
+</Layout>
+<script>
+  import { userManager } from "@/lib/auth";
+  import { sleep } from "@/lib/helper";
+
+  const messageElement = document.getElementById("message");
+  console.log(messageElement?.textContent);
+  for (let index = 5; index > 0; index--) {
+    await sleep(1);
+    if (messageElement && messageElement.textContent)
+      messageElement.textContent = `Please login. Redirecting to the login page...in ${index} seconds`;
+  }
+  await userManager.signinRedirect();
+</script>

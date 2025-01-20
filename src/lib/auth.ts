@@ -31,7 +31,7 @@ const client_id = getEnv("PUBLIC_CLIENT_ID");
 const cognitoAuthConfig = {
   authority: "https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_m7FgHaaxa",
   client_id,
-  redirect_uri: `${basePath}/signing-in`,
+  redirect_uri: `${basePath}/signin-callback`,
   response_type: "code",
   scope: "email openid phone profile",
 };
