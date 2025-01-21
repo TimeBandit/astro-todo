@@ -5,7 +5,45 @@ import Layout from "@/layouts/Layout.astro";
 <Layout />
 <script>
   import { userManager } from "@/lib/auth";
+  import { sleep } from "@/lib/helper";
 
-  await userManager.signinCallback();
-  window.location.href = "/todos";
+  const setSecureAccessTokenCookie = (
+    token: string,
+    expiresIn: number = 3600
+  ) => {
+    console.log({ expiresIn });
+    // If we have expiresAt, use that directly
+    // Otherwise calculate from expiresIn
+    // const maxAge = expiresAt
+    //   ? Math.floor((new Date(expiresAt).getTime() - Date.now()) / 1000)
+    //   : expiresIn;
+
+    console.log(
+      "BLA: ",
+      `access_token=${token}; ` +
+        `Path=/; ` +
+        `Secure; ` +
+        `SameSite=Strict; ` +
+        `HttpOnly; ` +
+        `Max-Age=${expiresIn}`
+    );
+    document.cookie =
+      `access_token=${token}; ` +
+      `Path=/; ` +
+      `Secure; ` +
+      `SameSite=Strict; ` +
+      `HttpOnly; ` +
+      `Max-Age=${expiresIn}`;
+  };
+
+  const user = await userManager.signinCallback();
+  console.log("creating a cookie", user?.expires_in, user?.expires_at);
+  if (user && user.access_token) {
+    setSecureAccessTokenCookie(user.access_token, user.expires_in);
+    console.log("storing cookie: ", document.cookie);
+  } else {
+    console.log(`didn't store anything`);
+  }
+  await sleep(2);
+  // window.location.href = "/todos";
 </script>

@@ -4,17 +4,19 @@ import TodosComponent from "@/components/TodosComponent.astro";
 import "../styles/global.css";
 import Layout from "@/layouts/Layout.astro";
 import NavBar from "@/components/NavBar.astro";
-import { Button } from "@/components/ui/button";
 import { AvatarComponent } from "@/components/Avatar";
 import avatar from "../assets/avatar.svg";
 import { Skeleton } from "@/components/ui/skeleton";
+import LogoutButton from "@/components/LogoutButton.astro";
+
+export const prerender = false;
 ---
 
 <Layout>
   <NavBar>
     <AvatarComponent src={avatar.src} alt="user" fallbackText="" />
     <div id="name"></div>
-    <Button id="signOut" className="visibility:hidden">Logoutoooooo</Button>
+    <LogoutButton server:defer />
   </NavBar>
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="w-full max-w-sm">
@@ -28,13 +30,13 @@ import { Skeleton } from "@/components/ui/skeleton";
   </div>
 </Layout>
 <script>
-  import { signOutRedirect, userManager } from "@/lib/auth";
+  import { userManager } from "@/lib/auth";
 
-  document.getElementById("signOut")!.addEventListener("click", async () => {
-    await userManager.removeUser();
-    await signOutRedirect();
-  });
-
+  // document.getElementById("signOut")!.addEventListener("click", async () => {
+  //   await userManager.removeUser();
+  //   await signOutRedirect();
+  // });
+  document.cookie = "food=paratha";
   let user = await userManager.getUser();
 
   if (!user || (user && !!user.expired)) {
@@ -43,7 +45,7 @@ import { Skeleton } from "@/components/ui/skeleton";
     user = await userManager.getUser();
 
     const name = user?.profile.name || "User";
-    document.getElementById("signOut").style.visibility = "visible";
+    //document.getElementById("signOut").removeAttribute("hidden");
     document.getElementById("name").textContent =
       `Welcome back ${name[0].toUpperCase() + name.slice(1)}`;
   }
