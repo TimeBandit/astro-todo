@@ -1,40 +1,58 @@
 ---
 import { Button } from "@/components/ui/button";
 
+console.log("front matter code");
 // Get the session token or auth status from cookies/headers
 const cookies = Astro.request.headers.get("Cookie");
 const isAuthenticated = cookies?.includes("access_token");
-console.log(Astro.request.headers);
-console.log("<<HELLO>>: ", isAuthenticated);
-// If not authenticated, return nothing
-// if (!isAuthenticated) {
-//   return;
-// }
 
-// export const prerender = false;
+// If not authenticated, return nothing
+console.log(cookies, isAuthenticated);
+if (!isAuthenticated) {
+  console.info("no authenticated");
+  return;
+}
+
+export const prerender = false;
 ---
 
 <Button id="logoutButton">Logout</Button>
 
 <script>
-  const removeAccessTokenCookie = () => {
-    document.cookie =
-      "access_token=; " +
-      "Path=/; " +
-      "Secure; " +
-      "SameSite=Strict; " +
-      "HttpOnly; " +
-      "expires=Thu, 01 Jan 1970 00:00:01 GMT";
+  console.log("script tag code");
+
+  // const removeAccessTokenCookie = () => {
+  //   document.cookie =
+  //     "access_token=; " +
+  //     "Path=/; " +
+  //     "Secure; " +
+  //     "SameSite=Strict; " +
+  //     "HttpOnly; " +
+  //     "Max-Age=1";
+  // };
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout");
+      if (response.ok) {
+        // Handle successful logout (e.g., redirect or update UI state)
+        // window.location.href = "/login"; // or wherever you want to redirect
+        console.info("Logging out");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const button = document.getElementById("logoutButton");
 
   button?.addEventListener("click", async () => {
+    handleLogout();
     const userManager = (await import("@/lib/auth")).userManager;
     const signOutRedirect = (await import("@/lib/auth")).signOutRedirect;
 
     await userManager.removeUser();
-    removeAccessTokenCookie();
+    // removeAccessTokenCookie();
     await signOutRedirect();
   });
 </script>

@@ -24,7 +24,6 @@ import "../styles/global.css";
 
   document.addEventListener("DOMContentLoaded", async () => {
     const user = await userManager.getUser();
-    console.log(user);
 
     const loggedIn = user && !Boolean(user.expired);
     const loginButton = document.getElementById("login-button");
@@ -32,10 +31,8 @@ import "../styles/global.css";
     loginButton?.addEventListener("click", (e) => {
       e.preventDefault();
       if (loggedIn) {
-        console.log("one");
         window.location.href = "/todos";
       } else {
-        console.log("two");
         window.location.href = "/login";
       }
     });

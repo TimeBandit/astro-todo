@@ -8,8 +8,6 @@ import { AvatarComponent } from "@/components/Avatar";
 import avatar from "../assets/avatar.svg";
 import { Skeleton } from "@/components/ui/skeleton";
 import LogoutButton from "@/components/LogoutButton.astro";
-
-export const prerender = false;
 ---
 
 <Layout>
@@ -32,11 +30,6 @@ export const prerender = false;
 <script>
   import { userManager } from "@/lib/auth";
 
-  // document.getElementById("signOut")!.addEventListener("click", async () => {
-  //   await userManager.removeUser();
-  //   await signOutRedirect();
-  // });
-  document.cookie = "food=paratha";
   let user = await userManager.getUser();
 
   if (!user || (user && !!user.expired)) {
@@ -45,7 +38,6 @@ export const prerender = false;
     user = await userManager.getUser();
 
     const name = user?.profile.name || "User";
-    //document.getElementById("signOut").removeAttribute("hidden");
     document.getElementById("name").textContent =
       `Welcome back ${name[0].toUpperCase() + name.slice(1)}`;
   }

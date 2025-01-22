@@ -22,7 +22,7 @@ import { AvatarComponent } from "@/components/Avatar";
   import { sleep } from "@/lib/helper";
 
   const messageElement = document.getElementById("message");
-  console.log(messageElement?.textContent);
+
   for (let index = 5; index > 0; index--) {
     await sleep(1);
     if (messageElement && messageElement.textContent)
