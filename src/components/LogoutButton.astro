@@ -1,15 +1,13 @@
 ---
 import { Button } from "@/components/ui/button";
 
-console.log("front matter code");
+console.log("logout: FM");
 // Get the session token or auth status from cookies/headers
 const cookies = Astro.request.headers.get("Cookie");
 const isAuthenticated = cookies?.includes("access_token");
 
 // If not authenticated, return nothing
-console.log(cookies, isAuthenticated);
 if (!isAuthenticated) {
-  console.info("no authenticated");
   return;
 }
 
@@ -19,25 +17,14 @@ export const prerender = false;
 <Button id="logoutButton">Logout</Button>
 
 <script>
-  console.log("script tag code");
-
-  // const removeAccessTokenCookie = () => {
-  //   document.cookie =
-  //     "access_token=; " +
-  //     "Path=/; " +
-  //     "Secure; " +
-  //     "SameSite=Strict; " +
-  //     "HttpOnly; " +
-  //     "Max-Age=1";
-  // };
+  console.log("logout: ST");
 
   const handleLogout = async () => {
     try {
       const response = await fetch("/api/auth/logout");
       if (response.ok) {
         // Handle successful logout (e.g., redirect or update UI state)
-        // window.location.href = "/login"; // or wherever you want to redirect
-        console.info("Logging out");
+        console.info("Server indicates browser token removal");
       }
     } catch (error) {
       console.error("Logout failed:", error);
@@ -52,7 +39,6 @@ export const prerender = false;
     const signOutRedirect = (await import("@/lib/auth")).signOutRedirect;
 
     await userManager.removeUser();
-    // removeAccessTokenCookie();
     await signOutRedirect();
   });
 </script>

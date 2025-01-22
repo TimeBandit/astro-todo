@@ -13,9 +13,7 @@ import "../styles/global.css";
   <Content>
     <div slot="default">
       <Hero />
-      <Button id="login-button">
-        <a href="/todos">My Todos</a>
-      </Button>
+      <Button id="login-button">My Todos</Button>
     </div>
   </Content>
 </Layout>
@@ -31,8 +29,11 @@ import "../styles/global.css";
     loginButton?.addEventListener("click", (e) => {
       e.preventDefault();
       if (loggedIn) {
+        console.log("you are already logged in");
+
         window.location.href = "/todos";
       } else {
+        console.log("you need to log in");
         window.location.href = "/login";
       }
     });
