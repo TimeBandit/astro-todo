@@ -1,41 +1,124 @@
 ---
 import { Button } from "@/components/ui/button";
 import Content from "../components/Content.astro";
-import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
 import NavBar from "@/components/NavBar.astro";
-
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import AlertDestructive from "@/components/AlertDestructive.astro";
+import { Picture } from "astro:assets";
+import toucan from "@/assets/baby-toucan-cute.svg";
 import "../styles/global.css";
 ---
 
 <Layout>
   <NavBar />
-  <Content>
+  <AspectRatio ratio={16 / 9}>
+    <Content>
+      <div slot="default">
+        <div class="hero-container">
+          <div class="hero-content">
+            <h1 class="hero-heading">Toucan Toudos</h1>
+            <p class="hero-text">
+              Organize your tasks efficiently and boost your productivity with
+              our simple yet powerful todo application.
+            </p>
+            <div class="button-group">
+              <Button id="login-button">My Todos</Button>
+              <Button client:load id="temp" variant="secondary">Login</Button>
+            </div>
+          </div>
+          <div class="hero-image">
+            <Picture src={toucan} alt="Toucan" width={150} />
+          </div>
+        </div>
+      </div>
+    </Content>
+  </AspectRatio>
+  <!-- <Content>
     <div slot="default">
-      <Hero />
-      <Button id="login-button">My Todos</Button>
+      <div class="stack">
+        <div>
+          <Button id="login-button">My Todos</Button>
+          <Button client:load id="temp" variant="secondary"> Login </Button>
+        </div>
+        <hr />
+        <AlertDestructive />
+      </div>
     </div>
-  </Content>
+  </Content> -->
 </Layout>
 <script>
   import { userManager } from "@/lib/auth";
 
-  document.addEventListener("DOMContentLoaded", async () => {
-    const user = await userManager.getUser();
+  const user = await userManager.getUser();
 
-    const loggedIn = user && !Boolean(user.expired);
-    const loginButton = document.getElementById("login-button");
+  const loggedIn = user && !Boolean(user.expired);
+  const loginButton = document.getElementById("login-button");
 
-    loginButton?.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (loggedIn) {
-        console.log("you are already logged in");
+  loginButton?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (loggedIn) {
+      console.log("you are already logged in");
 
-        window.location.href = "/todos";
-      } else {
-        console.log("you need to log in");
-        window.location.href = "/login";
-      }
-    });
+      window.location.href = "/todos";
+    } else {
+      console.log("you need to log in");
+      window.location.href = "/login";
+    }
   });
 </script>
+<style>
+  .hero-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 0;
+  }
+
+  .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hero-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .hero-text {
+    font-size: 1.125rem;
+    color: #2c2c2c;
+    margin-bottom: 1rem;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .hero-image {
+    flex: 1;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .hero-container {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .button-group {
+      justify-content: center;
+    }
+  }
+</style>

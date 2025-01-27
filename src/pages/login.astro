@@ -22,6 +22,20 @@ import { AvatarComponent } from "@/components/Avatar";
   import { sleep } from "@/lib/helper";
 
   const messageElement = document.getElementById("message");
+  const access_token = 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/api/auth/login", {
+        headers: { Authorization: `Bearer ${userManager.getUser()}` },
+      });
+      if (response.ok) {
+        // Handle successful logout (e.g., redirect or update UI state)
+        console.info("Server indicates browser token removal");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   for (let index = 3; index > 0; index--) {
     await sleep(1);
