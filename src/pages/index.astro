@@ -1,12 +1,14 @@
 ---
+import toucan from "@/assets/baby-toucan-cute.svg";
+import NavBar from "@/components/NavBar.astro";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
+import { Picture } from "astro:assets";
+import { AlertCircle } from "lucide-react";
 import Content from "../components/Content.astro";
 import Layout from "../layouts/Layout.astro";
-import NavBar from "@/components/NavBar.astro";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import AlertDestructive from "@/components/AlertDestructive.astro";
-import { Picture } from "astro:assets";
-import toucan from "@/assets/baby-toucan-cute.svg";
+
 import "../styles/global.css";
 ---
 
@@ -23,9 +25,16 @@ import "../styles/global.css";
               our simple yet powerful todo application.
             </p>
             <div class="button-group">
-              <Button id="login-button">My Todos</Button>
-              <Button client:load id="temp" variant="secondary">Login</Button>
+              <Button id="my-todos-button">My Todos</Button>
+              <Button id="login-button" client:load variant="secondary"
+                >Login</Button
+              >
             </div>
+            <Alert id="login-alert" variant="destructive" className="hidden">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>Oops</AlertTitle>
+              <AlertDescription>Please log in first.</AlertDescription>
+            </Alert>
           </div>
           <div class="hero-image">
             <Picture src={toucan} alt="Toucan" width={150} />
@@ -34,18 +43,6 @@ import "../styles/global.css";
       </div>
     </Content>
   </AspectRatio>
-  <!-- <Content>
-    <div slot="default">
-      <div class="stack">
-        <div>
-          <Button id="login-button">My Todos</Button>
-          <Button client:load id="temp" variant="secondary"> Login </Button>
-        </div>
-        <hr />
-        <AlertDestructive />
-      </div>
-    </div>
-  </Content> -->
 </Layout>
 <script>
   import { userManager } from "@/lib/auth";
@@ -53,17 +50,24 @@ import "../styles/global.css";
   const user = await userManager.getUser();
 
   const loggedIn = user && !Boolean(user.expired);
+  const myTodosButton = document.getElementById("my-todos-button");
   const loginButton = document.getElementById("login-button");
+  const loginAlert = document.getElementById("login-alert");
 
   loginButton?.addEventListener("click", (e) => {
     e.preventDefault();
     if (loggedIn) {
-      console.log("you are already logged in");
+      console.info("👍 Already logged in.");
+    }
+    userManager.signinRedirect();
+  });
 
-      window.location.href = "/todos";
+  myTodosButton?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!loggedIn) {
+      loginAlert?.classList.remove("hidden");
     } else {
-      console.log("you need to log in");
-      window.location.href = "/login";
+      window.location.href = "/todos";
     }
   });
 </script>
