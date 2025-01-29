@@ -13,7 +13,7 @@ import Layout from "@/layouts/Layout.astro";
     const isDev = import.meta.env.DEV === true;
 
     document.cookie =
-      `access_token=${token}; ` +
+      `token=${token}; ` +
       `Path=/; ` +
       `Secure; ` +
       `SameSite=Strict; ` +
@@ -21,10 +21,25 @@ import Layout from "@/layouts/Layout.astro";
       `Max-Age=${expiresIn}`;
   };
 
+  const serverLogin = async (token: string, expiresIn: number = 3600) => {
+    try {
+      await fetch("/api/auth/login", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Ttl: expiresIn.toString(),
+        },
+        credentials: "same-origin",
+      });
+    } catch (e) {
+      console.error("call to /api/login failed", e);
+    }
+  };
+
   const user = await userManager.signinCallback();
 
   if (user && user.access_token) {
-    setSecureAccessTokenCookie(user.access_token, user.expires_in);
+    // setSecureAccessTokenCookie(user.access_token, user.expires_in);
+    serverLogin(user.access_token, user.expires_in);
   }
 
   window.location.href = "/todos";

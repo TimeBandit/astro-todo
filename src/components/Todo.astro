@@ -1,0 +1,17 @@
+---
+import { Trash2 } from "lucide-react";
+
+const { id, content } = Astro.props;
+---
+
+<div data-id={id}>
+  {content}
+  <span
+    id="todo"
+    hx-delete=`/api/todo/${1}`
+    hx-target=`[data-id="${id}"]`
+    hx-swap="innerHTML swap:1s"
+  >
+    <Trash2 />
+  </span>
+</div>

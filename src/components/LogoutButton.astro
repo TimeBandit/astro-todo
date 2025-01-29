@@ -1,10 +1,8 @@
 ---
 import { Button } from "@/components/ui/button";
 
-console.log("logout: FM");
-// Get the session token or auth status from cookies/headers
 const cookies = Astro.request.headers.get("Cookie");
-const isAuthenticated = cookies?.includes("access_token");
+const isAuthenticated = cookies?.includes("token");
 
 // If not authenticated, return nothing
 if (!isAuthenticated) {

@@ -1,0 +1,12 @@
+---
+import Todo from "@/components/Todo.astro";
+export const partial = true;
+export const prerender = false;
+
+const todos = [
+  { id: 1, content: "first one" },
+  { id: 2, content: "second one" },
+];
+---
+
+{todos.map((todo) => <Todo id={todo.id} content={todo.content} />)}

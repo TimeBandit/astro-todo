@@ -23,7 +23,16 @@ import LogoutButton from "@/components/LogoutButton.astro";
         <TodosComponent server:defer>
           <Skeleton slot="fallback" className="w-full h-[200px]" />
         </TodosComponent>
+        <button
+          hx-get="/partials/todos"
+          hx-trigger="click"
+          hx-target="#parent-div"
+          hx-swap="outerHTML"
+        >
+          Click Me!
+        </button>
       </Content>
+      <div id="parent-div">target</div>
     </div>
   </div>
 </Layout>
@@ -38,8 +47,8 @@ import LogoutButton from "@/components/LogoutButton.astro";
     user = await userManager.getUser();
 
     const name = user?.profile.name || "User";
-    document.getElementById("name").textContent =
-      `Welcome back ${name[0].toUpperCase() + name.slice(1)}`;
+    document.getElementById("name")!.innerHTML =
+      `<strong>Welcome Back ${name[0].toUpperCase() + name.slice(1)}</strong>`;
   }
 </script>
 <style>
