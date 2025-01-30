@@ -1,13 +1,14 @@
 ---
-import Content from "@/components/Content.astro";
-import TodosComponent from "@/components/TodosComponent.astro";
-import "../styles/global.css";
-import Layout from "@/layouts/Layout.astro";
-import NavBar from "@/components/NavBar.astro";
 import { AvatarComponent } from "@/components/Avatar";
-import avatar from "../assets/avatar.svg";
-import { Skeleton } from "@/components/ui/skeleton";
+import Content from "@/components/Content.astro";
 import LogoutButton from "@/components/LogoutButton.astro";
+import NavBar from "@/components/NavBar.astro";
+import TodosComponent from "@/components/TodosComponent.astro";
+import { Skeleton } from "@/components/ui/skeleton";
+import Layout from "@/layouts/Layout.astro";
+
+import avatar from "../assets/avatar.svg";
+import "../styles/global.css";
 ---
 
 <Layout>
@@ -19,20 +20,15 @@ import LogoutButton from "@/components/LogoutButton.astro";
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="w-full max-w-sm">
       <Content>
-        <div id="message"></div>
-        <TodosComponent server:defer>
-          <Skeleton slot="fallback" className="w-full h-[200px]" />
-        </TodosComponent>
-        <button
+        <!-- <TodosComponent server:defer> -->
+        <Skeleton
+          className="w-full h-[200px]"
           hx-get="/partials/todos"
-          hx-trigger="click"
-          hx-target="#parent-div"
+          hx-trigger="load"
           hx-swap="outerHTML"
-        >
-          Click Me!
-        </button>
+        />
       </Content>
-      <div id="parent-div">target</div>
+      <!-- </Content> -->
     </div>
   </div>
 </Layout>
@@ -42,7 +38,7 @@ import LogoutButton from "@/components/LogoutButton.astro";
   let user = await userManager.getUser();
 
   if (!user || (user && !!user.expired)) {
-    window.location.href = "/login";
+    window.location.href = "/";
   } else {
     user = await userManager.getUser();
 

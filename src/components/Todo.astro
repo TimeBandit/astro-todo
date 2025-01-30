@@ -1,10 +1,27 @@
 ---
 import { Trash2 } from "lucide-react";
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import { TableCell, TableRow } from "./ui/table";
 
-const { id, content } = Astro.props;
+const { id, description, completed } = Astro.props;
+console.log(typeof completed);
 ---
 
-<div data-id={id}>
+<TableRow key={id} data-id={id}>
+  <TableCell>
+    <Checkbox checked={completed} />
+  </TableCell>
+  <TableCell>
+    {description}
+  </TableCell>
+  <TableCell>
+    <Button variant="outline" size="icon">
+      <Trash2 />
+    </Button>
+  </TableCell>
+</TableRow>
+<!-- <div data-id={id}>
   {content}
   <span
     id="todo"
@@ -14,4 +31,4 @@ const { id, content } = Astro.props;
   >
     <Trash2 />
   </span>
-</div>
+</div> -->
