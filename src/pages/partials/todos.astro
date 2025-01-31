@@ -1,15 +1,5 @@
 ---
 import Todo from "@/components/Todo.astro";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 export const partial = true;
 export const prerender = false;
@@ -21,32 +11,22 @@ const todos = [
 ];
 ---
 
-<Table>
-  <TableCaption>A list of your recent invoices.</TableCaption>
-  <TableHeader>
-    <TableRow>
-      <TableHead>Done</TableHead>
-      <!-- complete checkbox -->
-      <TableHead>Description</TableHead>
-      <TableHead />
-      <!-- delete button -->
-    </TableRow>
-  </TableHeader>
-  <TableBody>
+<section class="space-y-4" aria-labelledby="todos-label">
+  <h1
+    id="todos-label"
+    class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl"
+  >
+    My Todo List
+  </h1>
+  <ul>
     {
       todos.map((todo) => (
         <Todo
-          id={todo.id}
+          key={todo.id}
           description={todo.description}
           completed={todo.completed}
         />
       ))
     }
-  </TableBody>
-  <TableFooter>
-    <TableRow>
-      <TableCell colSpan={3}>Total</TableCell>
-      <TableCell className="text-right">$2,500.00</TableCell>
-    </TableRow>
-  </TableFooter>
-</Table>
+  </ul>
+</section>

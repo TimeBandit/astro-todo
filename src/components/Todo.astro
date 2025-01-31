@@ -2,33 +2,15 @@
 import { Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import { TableCell, TableRow } from "./ui/table";
 
 const { id, description, completed } = Astro.props;
-console.log(typeof completed);
+console.log(completed);
 ---
 
-<TableRow key={id} data-id={id}>
-  <TableCell>
-    <Checkbox checked={completed} />
-  </TableCell>
-  <TableCell>
-    {description}
-  </TableCell>
-  <TableCell>
-    <Button variant="outline" size="icon">
-      <Trash2 />
-    </Button>
-  </TableCell>
-</TableRow>
-<!-- <div data-id={id}>
-  {content}
-  <span
-    id="todo"
-    hx-delete=`/api/todo/${1}`
-    hx-target=`[data-id="${id}"]`
-    hx-swap="innerHTML swap:1s"
-  >
+<li class="flex align-botton gap-2">
+  <Checkbox id={id} checked={completed} />
+  <label for={id}>{description}</label>
+  <Button variant="outline" size="icon">
     <Trash2 />
-  </span>
-</div> -->
+  </Button>
+</li>
