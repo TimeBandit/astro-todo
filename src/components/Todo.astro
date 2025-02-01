@@ -7,9 +7,9 @@ const { id, description, completed } = Astro.props;
 console.log(completed);
 ---
 
-<li class="flex align-botton gap-2">
+<li class="flex justify-start gap-2">
   <Checkbox id={id} checked={completed} />
-  <label for={id}>{description}</label>
+  <label class="me-auto" for={id}>{description}</label>
   <Button variant="outline" size="icon">
     <Trash2 />
   </Button>
