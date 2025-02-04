@@ -1,5 +1,6 @@
 ---
 import Todo from "@/components/Todo.astro";
+import { Button } from "@/components/ui/button";
 
 export const partial = true;
 export const prerender = false;
@@ -18,15 +19,24 @@ const todos = [
   >
     My Todo List
   </h1>
-  <ul>
-    {
-      todos.map((todo) => (
-        <Todo
-          key={todo.id}
-          description={todo.description}
-          completed={todo.completed}
-        />
-      ))
-    }
-  </ul>
+  <div>
+    <ul>
+      {
+        todos.map((todo) => (
+          <Todo
+            key={todo.id}
+            description={todo.description}
+            completed={todo.completed}
+          />
+        ))
+      }
+    </ul>
+  </div>
+  <form
+    class="flex gap-2 grow-[1] border-2 justify-between border-black"
+    action=""
+  >
+    <input class="" type="text" name="task" id="task-input" />
+    <Button className="rounded-none" type="submit">Add</Button>
+  </form>
 </section>
