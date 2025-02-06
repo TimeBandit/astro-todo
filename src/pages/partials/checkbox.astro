@@ -29,6 +29,6 @@ export const partial = true;
   checked={newCompleted}
   hx-vals={JSON.stringify({ id, completed: newCompleted })}
   hx-patch=`/partials/checkbox`
-  hx-swap="outerHTML swap:1s"
+  hx-swap="outerHTML"
   hx-trigger="click throttle:1s"
 />
