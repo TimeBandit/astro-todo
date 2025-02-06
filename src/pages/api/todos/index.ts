@@ -2,6 +2,12 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
+const todos = [
+  { id: 1, description: "first one", completed: true },
+  { id: 2, description: "second one", completed: false },
+  { id: 3, description: "third one", completed: true },
+];
+
 export const GET: APIRoute = async (context) => {
   // todo: print out the cookie from FE
   // todo: crud the todos
@@ -17,8 +23,8 @@ export const GET: APIRoute = async (context) => {
   // });
 
   console.log("hallo");
-  return new Response(`<mark>hallo</mark>`, {
+  return new Response(JSON.stringify({ todos }), {
     status: 200,
-    headers: { "Content-Type": "text/html; charset=utf-8" },
+    headers: { "Content-Type": "application/json" },
   });
 };

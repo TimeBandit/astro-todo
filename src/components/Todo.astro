@@ -4,13 +4,34 @@ import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
 
 const { id, description, completed } = Astro.props;
-console.log(completed);
+
+console.table({ id, description, completed });
 ---
 
 <li class="flex justify-start gap-2">
-  <Checkbox id={id} checked={completed} />
+  <Checkbox
+    id={id}
+    name={id}
+    checked={completed}
+    hx-vals={JSON.stringify({ id, completed })}
+    hx-patch=`/partials/checkbox`
+    hx-swap="outerHTML swap:1s"
+    hx-trigger="click throttle:1s"
+  />
   <label class="me-auto" for={id}>{description}</label>
-  <Button variant="outline" size="icon">
+  <Button
+    variant="ghost"
+    size="icon"
+    hx-delete=`/api/todo/${id}`
+    hx-target="closest li"
+    hx-swap="outerHTML swap:1s"
+    hx-trigger="click throttle:1s"
+  >
     <Trash2 />
   </Button>
 </li>
+<style>
+  button[aria-checked="true"] ~ label {
+    text-decoration: line-through;
+  }
+</style>

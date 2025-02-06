@@ -1,15 +1,17 @@
 ---
 import Todo from "@/components/Todo.astro";
 import { Button } from "@/components/ui/button";
+import { GET } from "@/pages/api/todos";
 
 export const partial = true;
 export const prerender = false;
 
-const todos = [
-  { id: 1, description: "first one", completed: true },
-  { id: 2, description: "second one", completed: false },
-  { id: 3, description: "third one", completed: true },
-];
+// TODO: fetch the data from DDB here or
+// fetch it from an endpoint
+let responsey = await GET(Astro);
+const data: {
+  todos: { id: string; description: string; completed: boolean }[];
+} = await responsey.json();
 ---
 
 <section class="space-y-4 flex-1" aria-labelledby="todos-label">
@@ -22,9 +24,9 @@ const todos = [
   <div>
     <ul>
       {
-        todos.map((todo) => (
+        data.todos.map((todo) => (
           <Todo
-            key={todo.id}
+            id={todo.id}
             description={todo.description}
             completed={todo.completed}
           />
