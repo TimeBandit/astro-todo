@@ -21,22 +21,24 @@ const data: {
   >
     My Todo List
   </h1>
-  <div>
-    <ul>
-      {
-        data.todos.map((todo) => (
-          <Todo
-            id={todo.id}
-            description={todo.description}
-            completed={todo.completed}
-          />
-        ))
-      }
-    </ul>
-  </div>
+
+  <ul id="list">
+    {
+      data.todos.map((todo) => (
+        <Todo
+          id={todo.id}
+          description={todo.description}
+          completed={todo.completed}
+        />
+      ))
+    }
+  </ul>
+
   <form
     class="flex gap-2 grow-[1] border-2 justify-between border-black"
-    action=""
+    hx-post="/partials/list-item"
+    hx-swap="beforeend settle:3s"
+    hx-target="previous #list"
   >
     <input class="" type="text" name="task" id="task-input" />
     <Button className="rounded-none" type="submit">Add</Button>
