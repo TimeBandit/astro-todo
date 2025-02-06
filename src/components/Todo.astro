@@ -8,7 +8,7 @@ const { id, description, completed } = Astro.props;
 console.table({ id, description, completed });
 ---
 
-<li class="flex justify-start gap-2">
+<li class="flex justify-start gap-2 items-center">
   <Checkbox
     id={id}
     name={id}
@@ -30,8 +30,3 @@ console.table({ id, description, completed });
     <Trash2 />
   </Button>
 </li>
-<style>
-  button[aria-checked="true"] ~ label {
-    text-decoration: line-through;
-  }
-</style>
