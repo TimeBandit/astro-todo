@@ -18,7 +18,7 @@ import "../styles/global.css";
     <LogoutButton server:defer />
   </NavBar>
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-    <div class="w-full max-w-sm">
+    <div class="temp w-full max-w-sm">
       <Content>
         <!-- <TodosComponent server:defer> -->
         <Skeleton
@@ -50,5 +50,14 @@ import "../styles/global.css";
 <style>
   #todo {
     display: block;
+  }
+
+  section.todos {
+    box-shadow:
+      rgba(240, 46, 170, 0.4) 0px 5px,
+      rgba(240, 46, 170, 0.3) 0px 10px,
+      rgba(240, 46, 170, 0.2) 0px 15px,
+      rgba(240, 46, 170, 0.1) 0px 20px,
+      rgba(240, 46, 170, 0.05) 0px 25px;
   }
 </style>
