@@ -1,0 +1,30 @@
+---
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Trash2 } from "lucide-react";
+
+const { id, completed, description } = Astro.props;
+---
+
+<li class="flex justify-start gap-2 items-center">
+  <Checkbox
+    id={id}
+    name={id}
+    checked={completed}
+    hx-vals={JSON.stringify({ id, completed })}
+    hx-patch=`/partials/checkbox`
+    hx-swap="outerHTML swap:1s"
+    hx-trigger="click throttle:1s"
+  />
+  <label class="me-auto" for={id}>{description}</label>
+  <Button
+    variant="ghost"
+    size="icon"
+    hx-delete=`/api/todo/${id}`
+    hx-target="closest li"
+    hx-swap="outerHTML swap:1s"
+    hx-trigger="click throttle:1s"
+  >
+    <Trash2 />
+  </Button>
+</li>

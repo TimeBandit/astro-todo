@@ -47,11 +47,28 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
+## Contributing
+
+Conventional commit types to use.
+
+'build',
+'chore',
+'ci',
+'docs',
+'feat',
+'fix',
+'perf',
+'refactor',
+'revert',
+'style',
+'test'
+
 ## Authentication
 
 Amazon Cognito is used to authenticate the `User`
 
 ## DDD
+
 Read this [primer](https://medium.com/spotlight-on-javascript/domain-driven-design-for-javascript-developers-9fc3f681931a) on Domain Driven Development
 
 ```mermaid
@@ -64,11 +81,11 @@ flowchart LR
     end
 ```
 
-The inner layers can use anything declared in the outer layer. 
+The inner layers can use anything declared in the outer layer.
 Source code dependencies only point inwards.
 
 > The inner layer is your business logic, the application layer orchestrates this business logic in response to clients requests and the infrastructure layer contains concrete implementations of the code dealing with the database, web-services, etc.
-> 
+
 ### Domain
 
 Online storage and retrieval of Todos tied to a specific User. The User must be logged to see their Todos
@@ -88,18 +105,14 @@ Online storage and retrieval of Todos tied to a specific User. The User must be 
   - List
     - Todos[]
     - User
-  
+
 ## Todos
+
 [] auth protect todos route
 [] authenticate the logged in user along the API route
-  [] create a policy
-  [] create a role and attach the policy
-  [] specifiy the awarded role in cognito
+[] create a policy
+[] create a role and attach the policy
+[] specifiy the awarded role in cognito
 [] create new table in ddb to hold lists
 [] create document client to access data
 [] create CRUD helpers to write to tables
-
-
-
-
-
