@@ -2,8 +2,6 @@
 import TodoListItem from "./TodoListItem.astro";
 
 const { id, description, completed } = Astro.props;
-
-console.table({ id, description, completed });
 ---
 
 <TodoListItem {...{ id, completed, description }} />

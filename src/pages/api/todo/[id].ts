@@ -10,13 +10,10 @@ export const PUT: APIRoute = async ({ params, request }) => {
     console.log(error);
   }
 
-  console.log("updating id: ", params, data);
-
   return new Response(null, { status: 200 });
 };
 
 export const DELETE: APIRoute = ({ params }) => {
-  console.log("deleting id: ", params);
   return new Response(null, { status: 200 });
 };
 
@@ -27,8 +24,6 @@ export const PATCH: APIRoute = async ({ params, request }) => {
   } catch (error) {
     console.log(error);
   }
-
-  console.log("updating id: ", params, data);
 
   return new Response(null, { status: 200 });
 };

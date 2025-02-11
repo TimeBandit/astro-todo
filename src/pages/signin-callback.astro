@@ -6,21 +6,6 @@ import Layout from "@/layouts/Layout.astro";
 <script>
   import { userManager } from "@/lib/auth";
 
-  const setSecureAccessTokenCookie = (
-    token: string,
-    expiresIn: number = 3601
-  ) => {
-    const isDev = import.meta.env.DEV === true;
-
-    document.cookie =
-      `token=${token}; ` +
-      `Path=/; ` +
-      `Secure; ` +
-      `SameSite=Strict; ` +
-      `${isDev ? "" : "HttpOnly; "}` + // won't be set in the browser if enabled, omit in local host
-      `Max-Age=${expiresIn}`;
-  };
-
   const serverLogin = async (token: string, expiresIn: number = 3600) => {
     try {
       await fetch("/api/auth/login", {
@@ -31,14 +16,13 @@ import Layout from "@/layouts/Layout.astro";
         credentials: "same-origin",
       });
     } catch (e) {
-      console.error("call to /api/login failed", e);
+      console.error("Login failed 🔥", e);
     }
   };
 
   const user = await userManager.signinCallback();
 
   if (user && user.access_token) {
-    // setSecureAccessTokenCookie(user.access_token, user.expires_in);
     serverLogin(user.access_token, user.expires_in);
   }
 

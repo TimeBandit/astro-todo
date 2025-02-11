@@ -16,12 +16,10 @@ export const GET: APIRoute = async (context) => {
     );
   }
 
-  // TODO: validate the token
-
-  context.cookies.set("token", token, {
+  context.cookies.set("access_token", token, {
     path: "/",
-    secure: true,
-    httpOnly: true, // removes js access in the browser
+    // secure: true,
+    // httpOnly: true, // removes js access in the browser
     sameSite: "strict",
     maxAge: parseInt(ttl ?? "3600"), // 1 hour
   });
