@@ -2,7 +2,14 @@ import type { APIRoute } from "astro";
 
 export const prerender = false;
 
-export const PUT: APIRoute = async ({ params, request }) => {
+/**
+ *
+ * @description Store a new todo in the database
+ * @param request
+ * @returns Response
+ */
+export const POST: APIRoute = async ({ params, request }) => {
+  //
   let data;
   try {
     data = await request.formData(); // * Blog
@@ -13,10 +20,20 @@ export const PUT: APIRoute = async ({ params, request }) => {
   return new Response(null, { status: 200 });
 };
 
+/**
+ *
+ * @description Delete a todo from the database
+ * @param request
+ * @returns Response
+ */
 export const DELETE: APIRoute = ({ params }) => {
   return new Response(null, { status: 200 });
 };
 
+/**
+ *
+ * @description Updates a todo in the database
+ */
 export const PATCH: APIRoute = async ({ params, request }) => {
   let data;
   try {

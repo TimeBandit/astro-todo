@@ -1,5 +1,5 @@
 declare namespace App {
   interface Locals {
-    user: string | jwt.JwtPayload;
+    userId: string; // idenifier for the user
   }
 }

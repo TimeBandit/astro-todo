@@ -18,8 +18,8 @@ export const GET: APIRoute = async (context) => {
 
   context.cookies.set("access_token", token, {
     path: "/",
-    // secure: true,
-    // httpOnly: true, // removes js access in the browser
+    secure: true,
+    httpOnly: true, // removes js access in the browser
     sameSite: "strict",
     maxAge: parseInt(ttl ?? "3600"), // 1 hour
   });

@@ -3,7 +3,6 @@ import { AvatarComponent } from "@/components/Avatar";
 import Content from "@/components/Content.astro";
 import LogoutButton from "@/components/LogoutButton.astro";
 import NavBar from "@/components/NavBar.astro";
-// import TodosComponent from "@/components/TodosComponent.astro";
 import { Skeleton } from "@/components/ui/skeleton";
 import Layout from "@/layouts/Layout.astro";
 
@@ -20,7 +19,6 @@ import "../styles/global.css";
   <div class="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
     <div class="temp w-full max-w-sm">
       <Content>
-        <!-- <TodosComponent server:defer> -->
         <Skeleton
           className="w-full h-[200px]"
           hx-get="/partials/todos"
