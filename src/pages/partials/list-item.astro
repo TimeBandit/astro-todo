@@ -1,12 +1,27 @@
 ---
 import TodoListItem from "@/components/TodoListItem.astro";
+import { POST } from "../api/todos/[id]";
 
 // const data = await Astro.request.formData();
 
-//const name = data.get("name");
+// const description = data.get("task");
 const id = "2";
-const completed = true;
-const description = "something";
+const completed = false;
+// const description = "something";
+
+try {
+  const response = await POST(Astro);
+  console.log(response.body);
+  if (!response.ok) {
+    throw new Error(
+      `Failed to create todo: ${response.status} ${response.statusText}`
+    );
+  }
+} catch (error: Error | unknown) {
+  if (error instanceof Error) {
+    return new Response(null, { status: 500, statusText: error.message });
+  }
+}
 
 export const prerender = false;
 export const partial = true;

@@ -10,14 +10,18 @@ export const prerender = false;
  */
 export const POST: APIRoute = async ({ params, request }) => {
   //
+  console.log("POSTING TODO");
   let data;
+  let task;
   try {
     data = await request.formData(); // * Blog
+    task = data.get("task");
+    console.log("post: ", task);
   } catch (error) {
     console.log(error);
   }
 
-  return new Response(null, { status: 200 });
+  return new Response(data, { status: 200 });
 };
 
 /**
@@ -27,6 +31,7 @@ export const POST: APIRoute = async ({ params, request }) => {
  * @returns Response
  */
 export const DELETE: APIRoute = ({ params }) => {
+  console.log("DELETING TODO");
   return new Response(null, { status: 200 });
 };
 
@@ -35,6 +40,7 @@ export const DELETE: APIRoute = ({ params }) => {
  * @description Updates a todo in the database
  */
 export const PATCH: APIRoute = async ({ params, request }) => {
+  console.log("UPDATING TODO");
   let data;
   try {
     data = await request.formData(); // * Blog

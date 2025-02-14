@@ -39,6 +39,7 @@ const cognitoAuthConfig = {
 // create a UserManager instance
 export const userManager = new UserManager({
   ...cognitoAuthConfig,
+  automaticSilentRenew: false, // the token won't automatically renew
 });
 
 export async function signOutRedirect() {

@@ -9,6 +9,7 @@ const todos = [
 ];
 
 export const GET: APIRoute = async (context) => {
+  console.log("GETTING TODOS");
   return new Response(JSON.stringify({ todos }), {
     status: 200,
     headers: { "Content-Type": "application/json" },

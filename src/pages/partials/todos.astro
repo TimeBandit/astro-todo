@@ -40,7 +40,14 @@ const data: {
     hx-swap="beforeend"
     hx-target="previous #list"
   >
-    <input class="" type="text" name="task" id="task-input" />
+    <input
+      class="border-none"
+      type="text"
+      name="task"
+      id="task-input"
+      autocomplete="off"
+      required
+    />
     <Button className="rounded-none" type="submit">Add</Button>
   </form>
 </section>

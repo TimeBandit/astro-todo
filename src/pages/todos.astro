@@ -35,7 +35,7 @@ import "../styles/global.css";
 
   let user = await userManager.getUser();
 
-  if (!user || (user && !!user.expired)) {
+  if (!user || (user && user.expired)) {
     window.location.href = "/";
   } else {
     user = await userManager.getUser();

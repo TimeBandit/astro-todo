@@ -20,7 +20,7 @@ const { id, completed, description } = Astro.props;
   <Button
     variant="ghost"
     size="icon"
-    hx-delete=`/api/todo/${id}`
+    hx-delete=`/api/todos/${id}`
     hx-target="closest li"
     hx-swap="outerHTML swap:1s"
     hx-trigger="click throttle:1s"

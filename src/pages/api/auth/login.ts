@@ -5,7 +5,7 @@ export const prerender = false;
 export const GET: APIRoute = async (context) => {
   const { headers } = context.request;
   const token = headers.get("Authorization")?.valueOf().split(" ")[1];
-  const ttl = headers.get("ttl")?.valueOf();
+  const ttl = parseInt(headers.get("ttl")?.valueOf() || "0") || 3600; // 3600s = 1hr
 
   if (!token) {
     return new Response(
@@ -21,7 +21,8 @@ export const GET: APIRoute = async (context) => {
     secure: true,
     httpOnly: true, // removes js access in the browser
     sameSite: "strict",
-    maxAge: parseInt(ttl ?? "3600"), // 1 hour
+    expires: new Date(ttl * 1000),
+    maxAge: ttl,
   });
 
   return new Response(

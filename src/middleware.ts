@@ -1,12 +1,6 @@
-// src/middleware.ts
-
 import type { MiddlewareHandler } from "astro";
 import { defineMiddleware } from "astro/middleware";
-import jwt, {
-  TokenExpiredError,
-  type JwtHeader,
-  type VerifyErrors,
-} from "jsonwebtoken";
+import jwt, { type JwtHeader, type VerifyErrors } from "jsonwebtoken";
 import jwksClient, { type SigningKey } from "jwks-rsa";
 
 const region = import.meta.env.REGION;
@@ -58,6 +52,7 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
 
     let token: string | undefined;
 
+    console.log({ pathname });
     // protected routes
     if (pathname === "/api/auth/login") {
       const authHeader = request.headers.get("Authorization");
@@ -73,13 +68,6 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
     if (token) {
       try {
         const decoded = await new Promise<DecodedToken>((resolve, reject) => {
-          if (decoded.exp * 1000 < Date.now()) {
-            // saves the verify method from making a network request
-            reject(
-              new TokenExpiredError("Token Expired", new Date(decoded.exp))
-            );
-          }
-
           jwt.verify(
             token as string,
             getKey,
@@ -103,11 +91,13 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
       } catch (err) {
         console.error("Token validation failed 🔥:", err);
         // Token is invalid or expired
-        return new Response("Unauthorized", { status: 401 });
+        return context.redirect("/");
+        // return new Response("Unauthorized", { status: 401 });
       }
     } else {
-      console.error("No token found 🔥:", err);
-      return new Response("Unauthorized", { status: 401 });
+      console.error("No token found 🔥:");
+      return context.redirect("/");
+      // return new Response("Unauthorized", { status: 401 });
     }
   }
 );
