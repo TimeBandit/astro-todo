@@ -48,11 +48,14 @@ function getKey(
 export const onRequest: MiddlewareHandler = defineMiddleware(
   async (context, next) => {
     const { request, cookies } = context;
-    const { pathname } = context.url;
+    const { routePattern } = context;
+    const url = new URL(request.url);
+    const pathname = url.pathname;
 
     let token: string | undefined;
 
-    console.log({ pathname });
+    console.log("middleware running ", { pathname });
+
     // protected routes
     if (pathname === "/api/auth/login") {
       const authHeader = request.headers.get("Authorization");
@@ -61,6 +64,7 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
       }
     } else if (pathname.startsWith("/api/todos")) {
       token = cookies.get("access_token")?.value;
+      console.log("im here /api/todos");
     } else {
       return next();
     }
@@ -83,7 +87,8 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
         });
 
         // Attach user information to context.locals for use in routes or components
-        context.locals.userId = decoded.sub; // Cognito User ID (immutable)
+        console.log("decoded: ", decoded);
+        // context.locals.userId = decoded.sub; // Cognito User ID (immutable)
 
         console.info("Token verified successfully 🎉");
 

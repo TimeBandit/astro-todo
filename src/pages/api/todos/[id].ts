@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { v4 as uuidv4 } from "uuid";
 
 export const prerender = false;
 
@@ -11,17 +12,20 @@ export const prerender = false;
 export const POST: APIRoute = async ({ params, request }) => {
   //
   console.log("POSTING TODO");
-  let data;
-  let task;
   try {
-    data = await request.formData(); // * Blog
-    task = data.get("task");
-    console.log("post: ", task);
-  } catch (error) {
-    console.log(error);
-  }
+    const data = await request.formData(); // * Blog
+    const todoId = uuidv4();
+    const task = data.get("task");
 
-  return new Response(data, { status: 200 });
+    return new Response(
+      JSON.stringify({ id: todoId, completed: false, task }),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    return new Response(null, { status: 400 });
+  }
 };
 
 /**
