@@ -12,6 +12,7 @@ const dynamoClient = new DynamoDBClient({
   credentials: fromCognitoIdentityPool({
     client: new CognitoIdentityClient({ region: REGION }),
     identityPoolId: IDENTITY_POOL_ID,
+    logins: {},
   }),
 });
 
