@@ -17,12 +17,9 @@ export const POST: APIRoute = async ({ params, request }) => {
     const todoId = uuidv4();
     const task = data.get("task");
 
-    return new Response(
-      JSON.stringify({ id: todoId, completed: false, task }),
-      {
-        status: 200,
-      }
-    );
+    return new Response(JSON.stringify({ id: todoId, done: false, task }), {
+      status: 200,
+    });
   } catch (error) {
     return new Response(null, { status: 400 });
   }

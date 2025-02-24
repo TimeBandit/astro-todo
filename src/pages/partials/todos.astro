@@ -10,7 +10,7 @@ export const prerender = false;
 // fetch it from an endpoint
 let responsey = await GET(Astro);
 const data: {
-  todos: { id: string; description: string; completed: boolean }[];
+  todos: { id: string; task: string; done: boolean }[];
 } = await responsey.json();
 ---
 
@@ -25,11 +25,7 @@ const data: {
   <ul id="list">
     {
       data.todos.map((todo) => (
-        <Todo
-          id={todo.id}
-          description={todo.description}
-          completed={todo.completed}
-        />
+        <Todo id={todo.id} task={todo.task} done={todo.done} />
       ))
     }
   </ul>

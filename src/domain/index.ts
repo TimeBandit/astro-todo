@@ -1,22 +1,37 @@
 import { v4 as uuidv4 } from "uuid";
 
 type Todo = {
-  id: string;
+  userId: string; // key
+  todoId: string; // hash
+  task: string;
   title: string;
-  description: string;
   done: boolean;
   createdAt: string;
 };
 
-const createTodo = (todo: { title?: string; description: string }): Todo => {
+type StoreTodoParams = Pick<Todo, "title" | "task" | "userId">;
+type DeleteTodoParams = Pick<Todo, "todoId" | "userId">;
+type UpdateTodoParams = Pick<Todo, "todoId" | "userId" | "done">;
+type GetAllMyTodoParams = Pick<Todo, "userId">;
+
+type TodoFactoryParams = Pick<Todo, "userId" | "task" | "title">;
+
+const createTodo = (todo: TodoFactoryParams): Todo => {
   return Object.freeze({
-    id: uuidv4(),
+    userId: todo.userId,
+    todoId: uuidv4(),
+    task: todo.task,
     title: todo.title || "",
-    description: todo.description,
     done: false,
     createdAt: new Date().toISOString(),
   });
 };
 
 export { createTodo };
-export type { Todo };
+export type {
+  DeleteTodoParams,
+  GetAllMyTodoParams,
+  StoreTodoParams,
+  Todo,
+  UpdateTodoParams,
+};

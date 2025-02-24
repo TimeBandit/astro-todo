@@ -1,18 +1,18 @@
 ---
 import { Checkbox as CheckboxComponent } from "@/components/ui/checkbox";
-// Option 2: Get the values individually
-type Completed = "true" | "false";
-type NewCompleted = boolean;
+import type { Todo } from "@/domain";
+
+type Done = Todo["done"];
 
 const formData = await Astro.request.formData();
 const id: string = formData.get("id") as string;
-const completed = formData.get("completed") as Completed;
+const done = formData.get("done");
 
-let newCompleted: NewCompleted;
+let newDone: Done;
 
 try {
   // TODO: call the endpoint with the new value
-  newCompleted = completed === "true" ? false : true;
+  newDone = done === "true" ? false : true;
 } catch (error) {
   // TODO: log the error
   // newCompleted = completed === "true" ? true : false;
@@ -26,8 +26,8 @@ export const partial = true;
 <CheckboxComponent
   id={id}
   name={id}
-  checked={newCompleted}
-  hx-vals={JSON.stringify({ id, completed: newCompleted })}
+  checked={newDone}
+  hx-vals={JSON.stringify({ id, done: newDone })}
   hx-patch=`/partials/checkbox`
   hx-swap="outerHTML"
   hx-trigger="click throttle:1s"

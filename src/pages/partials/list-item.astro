@@ -6,10 +6,10 @@ const response = await POST(Astro);
 const body = await response.json();
 
 if (!body) return;
-const { id, completed, task } = body;
+const { id, done, task } = body;
 
 export const prerender = false;
 export const partial = true;
 ---
 
-<TodoListItem {...{ id, completed, task }} />
+<TodoListItem {...{ id, done, task }} />

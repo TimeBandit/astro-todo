@@ -1,5 +1,10 @@
-import { createTodo, type Todo } from "@/domain";
-import { dynamoClient } from "@/repository/dynamoClient";
+import {
+  createTodo,
+  type DeleteTodoParams,
+  type GetAllMyTodoParams,
+  type StoreTodoParams,
+  type UpdateTodoParams,
+} from "@/domain";
 import {
   DeleteCommand,
   DynamoDBDocumentClient,
@@ -8,11 +13,10 @@ import {
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 
-const docClient = DynamoDBDocumentClient.from(dynamoClient);
-
-type TodoParams = Pick<Todo, "title" | "description" | "id" | "done">;
-
-const storeTodo = async (todo: TodoParams) => {
+const storeTodo = async (
+  todo: StoreTodoParams,
+  client: DynamoDBDocumentClient
+) => {
   const newTodo = createTodo(todo);
 
   const command = new PutCommand({
@@ -20,48 +24,56 @@ const storeTodo = async (todo: TodoParams) => {
     Item: newTodo,
   });
 
-  const response = await docClient.send(command);
+  const response = await client.send(command);
   return response;
 };
 
-const deleteTodo = async (id: string) => {
+const deleteTodo = async (
+  arg: DeleteTodoParams,
+  client: DynamoDBDocumentClient
+) => {
   const command = new DeleteCommand({
     TableName: "Todos",
     Key: {
-      id,
+      userId: arg.userId,
+      todoId: arg.todoId,
     },
   });
 
-  const response = await docClient.send(command);
+  const response = await client.send(command);
   return response;
 };
 
-const updateTodo = async (userId: string, todo: TodoParams) => {
-  const { id: todoId, done } = todo;
-
+const updateTodoDone = async (
+  arg: UpdateTodoParams,
+  client: DynamoDBDocumentClient
+) => {
   const command = new UpdateCommand({
     TableName: "Todos",
-    Key: { userId, todoId },
+    Key: { userId: arg.userId, todoId: arg.todoId },
     UpdateExpression: "SET done = :done",
     ExpressionAttributeValues: {
-      ":done": done,
+      ":done": arg.done,
     },
     ReturnValues: "ALL_NEW",
   });
 
-  const response = await docClient.send(command);
+  const response = await client.send(command);
   return response;
 };
 
-const getAllMyTodos = async (userId: string) => {
+const getAllMyTodos = async (
+  arg: GetAllMyTodoParams,
+  client: DynamoDBDocumentClient
+) => {
   const command = new QueryCommand({
     TableName: "Todos",
     KeyConditionExpression: "userId = :userId",
     ExpressionAttributeValues: {
-      ":userId": userId,
+      ":userId": arg.userId,
     },
   });
 
-  const response = await docClient.send(command);
+  const response = await client.send(command);
   return response;
 };

@@ -3,9 +3,9 @@ import type { APIRoute } from "astro";
 export const prerender = false;
 
 const todos = [
-  { id: 1, description: "first one", completed: true },
-  { id: 2, description: "second one", completed: false },
-  { id: 3, description: "third one", completed: true },
+  { id: 1, task: "first one", done: true },
+  { id: 2, task: "second one", done: false },
+  { id: 3, task: "third one", done: true },
 ];
 
 export const GET: APIRoute = async (context) => {
