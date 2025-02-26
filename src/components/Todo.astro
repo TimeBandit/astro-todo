@@ -1,7 +1,7 @@
 ---
 import TodoListItem from "./TodoListItem.astro";
 
-const { id, description, completed } = Astro.props;
+const { id, task, done } = Astro.props;
 ---
 
-<TodoListItem {...{ id, completed, description }} />
+<TodoListItem {...{ id, task, done }} />

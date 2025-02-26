@@ -5,8 +5,8 @@ type Todo = {
   todoId: string; // hash
   task: string;
   title: string;
-  done: boolean;
-  createdAt: string;
+  done: string;
+  created: string;
 };
 
 type StoreTodoParams = Pick<Todo, "title" | "task" | "userId">;
@@ -14,7 +14,7 @@ type DeleteTodoParams = Pick<Todo, "todoId" | "userId">;
 type UpdateTodoParams = Pick<Todo, "todoId" | "userId" | "done">;
 type GetAllMyTodoParams = Pick<Todo, "userId">;
 
-type TodoFactoryParams = Pick<Todo, "userId" | "task" | "title">;
+type TodoFactoryParams = { userId: string; task: string; title?: string };
 
 const createTodo = (todo: TodoFactoryParams): Todo => {
   return Object.freeze({
@@ -22,8 +22,8 @@ const createTodo = (todo: TodoFactoryParams): Todo => {
     todoId: uuidv4(),
     task: todo.task,
     title: todo.title || "",
-    done: false,
-    createdAt: new Date().toISOString(),
+    done: "false",
+    created: new Date().toISOString(),
   });
 };
 

@@ -77,3 +77,5 @@ const getAllMyTodos = async (
   const response = await client.send(command);
   return response;
 };
+
+export { deleteTodo, getAllMyTodos, storeTodo, updateTodoDone };

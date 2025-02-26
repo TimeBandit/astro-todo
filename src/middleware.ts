@@ -58,30 +58,39 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    let token: string | undefined;
+    let accessToken: string | null = null;
+    let idToken: string | null = null;
 
     // protected routes
     const partialPaths = [
       "/api/todos/",
       "/partials/checkbox",
       "/partials/list-item",
+      "/partials/todos",
     ];
     if (pathname === "/api/auth/login") {
-      const authHeader = request.headers.get("Authorization");
+      const authHeader = request.headers.get("Authentication");
       if (authHeader && authHeader.startsWith("Bearer ")) {
-        token = authHeader.substring(7);
+        accessToken = authHeader.substring(7);
       }
     } else if (partialPaths.some((path) => pathname.startsWith(path))) {
-      token = cookies.get("access_token")?.value;
+      accessToken = cookies.get("access_token")?.value || null;
+      idToken = cookies.get("id_token")?.value || null;
     } else {
       return next();
     }
 
-    if (token) {
+    if (idToken) {
+      context.locals.idToken = idToken;
+    } else {
+      context.locals.idToken = null;
+    }
+
+    if (accessToken) {
       try {
         const decoded = await new Promise<DecodedToken>((resolve, reject) => {
           jwt.verify(
-            token as string,
+            accessToken as string,
             getKey,
             {
               issuer: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}`,
@@ -97,17 +106,17 @@ export const onRequest: MiddlewareHandler = defineMiddleware(
         // Attach user information to context.locals for use in routes or components
         context.locals.userId = decoded.sub; // Cognito User ID (immutable)
 
-        console.info("Token verified successfully 🎉");
+        console.info("Access token verified successfully 🎉");
 
         return next();
       } catch (err) {
-        console.error("Token validation failed 🔥:", err);
+        console.error("Access token validation failed 🔥:", err);
         // Token is invalid or expired
         return context.redirect("/");
         // return new Response("Unauthorized", { status: 401 });
       }
     } else {
-      console.error("No token found 🔥:");
+      console.error("No access token found 🔥:");
       return context.redirect("/");
       // return new Response("Unauthorized", { status: 401 });
     }

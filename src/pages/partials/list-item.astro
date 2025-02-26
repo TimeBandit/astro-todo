@@ -3,6 +3,7 @@ import TodoListItem from "@/components/TodoListItem.astro";
 import { POST } from "../api/todos/[id]";
 
 const response = await POST(Astro);
+
 const body = await response.json();
 
 if (!body) return;

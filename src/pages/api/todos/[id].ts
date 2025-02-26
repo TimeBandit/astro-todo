@@ -1,5 +1,7 @@
+import { createTodo } from "@/domain";
+import { storeTodo } from "@/repository";
+import { getDocClient } from "@/repository/dynamoClient";
 import type { APIRoute } from "astro";
-import { v4 as uuidv4 } from "uuid";
 
 export const prerender = false;
 
@@ -9,16 +11,20 @@ export const prerender = false;
  * @param request
  * @returns Response
  */
-export const POST: APIRoute = async ({ params, request }) => {
-  //
+export const POST: APIRoute = async ({ params, request, locals }) => {
   console.log("POSTING TODO");
-  try {
-    const data = await request.formData(); // * Blog
-    const todoId = uuidv4();
-    const task = data.get("task");
+  const { userId, idToken } = locals;
+  const docClient = getDocClient(idToken);
 
-    return new Response(JSON.stringify({ id: todoId, done: false, task }), {
-      status: 200,
+  const data = await request.formData(); // * Blog
+  const task = data.get("task") || "";
+  const newTodo = createTodo({ userId, task: task.toString() });
+
+  try {
+    const r = await storeTodo(newTodo, docClient);
+
+    return new Response(JSON.stringify(newTodo), {
+      status: r.$metadata.httpStatusCode,
     });
   } catch (error) {
     return new Response(null, { status: 400 });
