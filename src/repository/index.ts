@@ -1,5 +1,4 @@
 import {
-  createTodo,
   type DeleteTodoParams,
   type GetAllMyTodoParams,
   type StoreTodoParams,
@@ -17,14 +16,16 @@ const storeTodo = async (
   todo: StoreTodoParams,
   client: DynamoDBDocumentClient
 ) => {
-  const newTodo = createTodo(todo);
+  console.log("new todo on repo commit side ", todo);
 
   const command = new PutCommand({
     TableName: "Todos",
-    Item: newTodo,
+    Item: todo,
   });
 
+  console.log("put command sent");
   const response = await client.send(command);
+  console.log("response from ddb ", response);
   return response;
 };
 
@@ -32,6 +33,7 @@ const deleteTodo = async (
   arg: DeleteTodoParams,
   client: DynamoDBDocumentClient
 ) => {
+  console.info(arg);
   const command = new DeleteCommand({
     TableName: "Todos",
     Key: {

@@ -11,8 +11,6 @@ let docClient: DynamoDBDocumentClient | null = null;
 
 // Create an Amazon DynaomDB service client object.
 const createDocClient = (idToken: string): DynamoDBDocumentClient => {
-  console.info("Creating doc client");
-  console.info({ REGION, IDENTITY_POOL_ID, USER_POOL_ID });
   const dynamoClient = new DynamoDBClient({
     region: REGION,
     credentials: fromCognitoIdentityPool({
@@ -29,7 +27,6 @@ const createDocClient = (idToken: string): DynamoDBDocumentClient => {
 };
 
 const getDocClient = (idToken: string | null): DynamoDBDocumentClient => {
-  console.info({ idToken });
   if (!docClient) {
     if (!idToken) throw new Error("No token provided");
     docClient = createDocClient(idToken);

@@ -3,24 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Trash2 } from "lucide-react";
 
-const { id, completed, task } = Astro.props;
+const { userId, todoId, task, done, created } = Astro.props;
+console.log("rendering new todo", { todoId, task, done, created });
 ---
 
 <li class="flex justify-start gap-2 items-center">
   <Checkbox
-    id={id}
-    name={id}
-    checked={completed}
-    hx-vals={JSON.stringify({ id, completed })}
+    id={todoId}
+    name={todoId}
+    checked={done === "true" ? true : false}
+    hx-vals={JSON.stringify({ todoId, userId, done })}
     hx-patch=`/partials/checkbox`
     hx-swap="outerHTML swap:1s"
     hx-trigger="click throttle:1s"
   />
-  <label class="me-auto" for={id}>{task}</label>
+  <label class="me-auto" for={todoId}>{task}</label>
   <Button
     variant="ghost"
     size="icon"
-    hx-delete=`/api/todos/${id}`
+    hx-delete=`/api/todos/${todoId}`
     hx-target="closest li"
     hx-swap="outerHTML swap:1s"
     hx-trigger="click throttle:1s"

@@ -23,11 +23,7 @@ const data: {
   </h1>
 
   <ul id="list">
-    {
-      data.todos.map((todo) => (
-        <Todo id={todo.id} task={todo.task} done={todo.done} />
-      ))
-    }
+    {data.todos.map((todo) => <Todo {...todo} />)}
   </ul>
 
   <form

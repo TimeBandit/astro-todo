@@ -5,6 +5,7 @@ import type { Todo } from "@/domain";
 type Done = Todo["done"];
 
 const formData = await Astro.request.formData();
+console.log("the values", Object.fromEntries(formData));
 const id: string = formData.get("id") as string;
 const done = formData.get("done");
 
