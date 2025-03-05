@@ -1,17 +1,14 @@
 ---
 import Todo from "@/components/Todo.astro";
 import { Button } from "@/components/ui/button";
+import type { Todo as TodoType } from "@/domain";
 import { GET } from "@/pages/api/todos";
+
+const response = await GET(Astro);
+const data = await response.json();
 
 export const partial = true;
 export const prerender = false;
-
-// TODO: fetch the data from DDB here or
-// fetch it from an endpoint
-let responsey = await GET(Astro);
-const data: {
-  todos: { id: string; task: string; done: boolean }[];
-} = await responsey.json();
 ---
 
 <section class="todos space-y-4 flex-1" aria-labelledby="todos-label">
@@ -23,7 +20,7 @@ const data: {
   </h1>
 
   <ul id="list">
-    {data.todos.map((todo) => <Todo {...todo} />)}
+    {data.todos.map((todo: TodoType) => <Todo {...todo} />)}
   </ul>
 
   <form

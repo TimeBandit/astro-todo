@@ -1,34 +1,22 @@
 ---
 import { Checkbox as CheckboxComponent } from "@/components/ui/checkbox";
-import type { Todo } from "@/domain";
+import { PATCH } from "../api/todos";
 
-type Done = Todo["done"];
+const response = await PATCH(Astro);
+const data = await response.json();
+console.log("received response from backend", data);
 
-const formData = await Astro.request.formData();
-console.log("the values", Object.fromEntries(formData));
-const id: string = formData.get("id") as string;
-const done = formData.get("done");
-
-let newDone: Done;
-
-try {
-  // TODO: call the endpoint with the new value
-  newDone = done === "true" ? false : true;
-} catch (error) {
-  // TODO: log the error
-  // newCompleted = completed === "true" ? true : false;
-  return new Response(null, { status: 500 });
-}
+const { todoId, done } = data;
 
 export const prerender = false;
 export const partial = true;
 ---
 
 <CheckboxComponent
-  id={id}
-  name={id}
-  checked={newDone}
-  hx-vals={JSON.stringify({ id, done: newDone })}
+  id={todoId}
+  name={todoId}
+  checked={done === "true" ? true : false}
+  hx-vals={JSON.stringify({ todoId, done })}
   hx-patch=`/partials/checkbox`
   hx-swap="outerHTML"
   hx-trigger="click throttle:1s"

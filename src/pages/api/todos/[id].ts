@@ -56,19 +56,3 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
     return new Response(null, { status: 400 });
   }
 };
-
-/**
- *
- * @description Updates a todo in the database
- */
-export const PATCH: APIRoute = async ({ params, request }) => {
-  console.log("UPDATING TODO");
-  let data;
-  try {
-    data = await request.formData(); // * Blog
-  } catch (error) {
-    console.log(error);
-  }
-
-  return new Response(null, { status: 200 });
-};

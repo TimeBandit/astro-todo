@@ -1,8 +1,8 @@
 ---
 import TodoListItem from "./TodoListItem.astro";
 
-const { id, todoId, task, done } = Astro.props;
-console.log(typeof done, done);
+const { userId, todoId, task, done } = Astro.props;
+console.log("Todo.astro", { userId, todoId, task, done });
 ---
 
-<TodoListItem {...{ id, todoId, task, done }} />
+<TodoListItem {...Astro.props} />
