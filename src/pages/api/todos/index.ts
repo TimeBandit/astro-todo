@@ -54,7 +54,7 @@ export const PATCH: APIRoute = async ({ request, locals }) => {
       {
         userId,
         todoId: todoId.toString(),
-        done: done.toString(),
+        done: done.toString() === "true" ? "false" : "true",
       },
       docClient
     );

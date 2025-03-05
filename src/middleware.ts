@@ -31,12 +31,16 @@ const client = jwksClient({
   jwksUri: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`,
 });
 
+const isVerifyErrors = (error: unknown): error is VerifyErrors => {
+  return error instanceof Error;
+};
+
 function getKey(
   header: JwtHeader,
   callback: (err: VerifyErrors | null, key?: string) => void
 ): void {
   client.getSigningKey(header.kid as string, (err, key) => {
-    if (err) {
+    if (isVerifyErrors(err)) {
       callback(err);
     } else {
       const signingKey = (key as SigningKey).getPublicKey();
