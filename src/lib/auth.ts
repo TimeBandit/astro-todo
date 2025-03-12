@@ -1,4 +1,6 @@
-import { UserManager } from "oidc-client-ts";
+import { Log, UserManager } from "oidc-client-ts";
+
+Log.setLogger(console);
 
 const getEnv = (key: string) => {
   const value = import.meta.env[key];
@@ -37,16 +39,49 @@ const cognitoAuthConfig = {
 };
 
 // create a UserManager instance
-export const userManager = new UserManager({
+const userManager = new UserManager({
   ...cognitoAuthConfig,
-  automaticSilentRenew: false, // the token won't automatically renew
+  automaticSilentRenew: true, // the token won't automatically renew
 });
 
-export async function signOutRedirect() {
+const signOutRedirect = () => {
   const logoutUri = `${basePath}`;
   const cognitoDomain =
     "https://eu-west-2m7fghaaxa.auth.eu-west-2.amazoncognito.com";
+
   window.location.href = `${cognitoDomain}/logout?client_id=${client_id}&logout_uri=${encodeURIComponent(
     logoutUri
   )}`;
-}
+};
+
+const serverLogin = async (
+  accessToken: string,
+  idToken: string = "",
+  expiresIn: number = 3600
+) => {
+  try {
+    await fetch("/api/auth/login", {
+      headers: {
+        Authentication: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${idToken}`,
+        Ttl: expiresIn.toString(),
+      },
+      credentials: "same-origin",
+    });
+  } catch (e) {
+    console.error("Login failed 🔥", e);
+  }
+};
+
+userManager.events.addUserLoaded(async () => {
+  console.log("running addUserLoaded event");
+  const user = await userManager.getUser();
+  if (user) {
+    const { id_token, access_token } = user;
+    if (id_token && access_token) {
+      await serverLogin(access_token, id_token);
+    }
+  }
+});
+
+export { serverLogin, signOutRedirect, userManager };

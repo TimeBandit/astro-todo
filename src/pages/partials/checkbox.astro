@@ -4,7 +4,6 @@ import { PATCH } from "../api/todos";
 
 const response = await PATCH(Astro);
 const data = await response.json();
-console.log("received response from backend", data);
 
 const { todoId, done } = data;
 

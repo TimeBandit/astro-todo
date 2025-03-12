@@ -1,0 +1,19 @@
+---
+import { Button } from "./ui/button";
+---
+
+<Button id="logoutButton">Logout</Button>
+
+<script>
+  import { signOutUser } from "@/domain/user";
+
+  const handleLogout = async () => {
+    await signOutUser();
+  };
+
+  const button = document.getElementById("logoutButton");
+
+  button?.addEventListener("click", async () => {
+    handleLogout();
+  });
+</script>

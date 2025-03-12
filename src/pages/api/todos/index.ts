@@ -1,4 +1,4 @@
-import { createTodo, type Todo } from "@/domain";
+import { createTodo, type Todo } from "@/domain/todo";
 import { getAllMyTodos, storeTodo, updateTodoDone } from "@/repository";
 import { getDocClient } from "@/repository/dynamoClient";
 import type { APIRoute } from "astro";
@@ -20,10 +20,10 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
   const data = await request.formData(); // * Blog
   const task = data.get("task") || "";
   const newTodo = createTodo({ userId, task: task.toString() });
-  console.log(`new todo after it's generated`, newTodo);
+
   try {
     const r = await storeTodo(newTodo, docClient);
-    console.log("todo to be returned ", newTodo, r);
+
     return new Response(JSON.stringify(newTodo), {
       status: r.$metadata.httpStatusCode,
     });
@@ -47,7 +47,6 @@ export const PATCH: APIRoute = async ({ request, locals }) => {
   const { todoId, done } = Object.fromEntries(formData);
 
   const docClient = getDocClient(idToken);
-  const todos: Todo[] = [];
 
   try {
     const r = await updateTodoDone(

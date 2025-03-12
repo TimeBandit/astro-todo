@@ -4,26 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 
 <Layout />
 <script>
-  import { userManager } from "@/lib/auth";
-
-  const serverLogin = async (
-    accessToken: string,
-    idToken: string,
-    expiresIn: number = 3600
-  ) => {
-    try {
-      await fetch("/api/auth/login", {
-        headers: {
-          Authentication: `Bearer ${accessToken}`,
-          Authorization: `Bearer ${idToken}`,
-          Ttl: expiresIn.toString(),
-        },
-        credentials: "same-origin",
-      });
-    } catch (e) {
-      console.error("Login failed 🔥", e);
-    }
-  };
+  import { serverLogin, userManager } from "@/lib/auth";
 
   const user = await userManager.signinCallback();
 

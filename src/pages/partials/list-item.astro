@@ -5,7 +5,6 @@ import { POST } from "@/pages/api/todos";
 const response = await POST(Astro);
 
 const body = await response.json();
-console.log("received response from backend", body);
 
 if (!body) return;
 

@@ -1,7 +1,7 @@
 ---
 import Todo from "@/components/Todo.astro";
 import { Button } from "@/components/ui/button";
-import type { Todo as TodoType } from "@/domain";
+import type { Todo as TodoType } from "@/domain/todo";
 import { GET } from "@/pages/api/todos";
 
 const response = await GET(Astro);

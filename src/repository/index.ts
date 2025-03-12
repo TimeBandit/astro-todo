@@ -3,7 +3,7 @@ import {
   type GetAllMyTodoParams,
   type StoreTodoParams,
   type UpdateTodoParams,
-} from "@/domain";
+} from "@/domain/todo";
 import {
   DeleteCommand,
   DynamoDBDocumentClient,
@@ -16,16 +16,12 @@ const storeTodo = async (
   todo: StoreTodoParams,
   client: DynamoDBDocumentClient
 ) => {
-  console.log("new todo on repo commit side ", todo);
-
   const command = new PutCommand({
     TableName: "Todos",
     Item: todo,
   });
 
-  console.log("put command sent");
   const response = await client.send(command);
-  console.log("response from ddb ", response);
   return response;
 };
 
