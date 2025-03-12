@@ -38,7 +38,7 @@ export const POST: APIRoute = async ({ params, request, locals }) => {
  * @returns Response
  */
 export const DELETE: APIRoute = async ({ params, locals }) => {
-  console.log("DELETING TODO";
+  console.log("DELETING TODO");
 
   const { userId, idToken } = locals;
   const { id: todoId } = params;
